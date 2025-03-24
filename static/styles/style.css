@@ -1,0 +1,166 @@
+:root {
+    --primary-color: #323A3F;
+    --secondary-color: #A0ACB1;
+    --background-color: #C6CDD0;
+    --text-color: #444444;
+    --button-hover-color: #555;
+}
+
+body {
+    background-color: var(--primary-color);
+    font-family: 'Segoe UI', Tahoma, Verdana, sans-serif;
+}
+
+.card {
+    background-color: var(--background-color);
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    max-width: 900px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    margin-inline: auto;
+    text-align: center;
+}
+
+.card-header {
+    font-size: 2rem;
+    font-weight: bold;
+    color: var(--primary-color);
+}
+
+.card-subtitle {
+    font-size: 1rem;
+    color: var(--text-color);
+}
+
+
+/* Buttons */
+
+
+.button-container {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+}
+
+button {
+    background-color: var(--primary-color);
+    border-radius: 8px;
+    border: 2px solid #ddd;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    width: 50px;
+    height: 50px;
+    background-size: 40px 40px;
+    margin-inline: 8px;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+button:hover {
+    background-color: var(--secondary-color);
+    transform: translateY(3px);
+}
+
+button[disabled] {
+    background-color: gray;
+    opacity: 0.6;
+    cursor: not-allowed; 
+}
+
+.tooltip {
+    visibility: hidden;
+    width: max-content;
+    background-color: var(--primary-color);
+    color: white;
+    text-align: center;
+    border-radius: 6px;
+    border: 2px solid #ddd;
+    padding: 8px;
+    position: absolute;
+    z-index: 1;
+    top: 20%;
+    right: 10%;
+    transform: translateX(-50%);
+}
+
+.button-container:hover .tooltip {
+    visibility: visible;
+}
+
+#upload {
+    background-image: url('../images/upload.png');
+}
+
+
+/* Visualizer */
+
+
+#display-container {
+    position: relative; 
+    display: inline-block;
+    border-radius: 12px;
+    margin-top: 20px;
+    margin-bottom: 25px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+#output-image {
+    width: 800px;
+    height: 500px;
+    object-fit: contain;
+}
+
+#bboxContainer {
+    margin-bottom: 20px;
+}
+
+#prediction-count {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: rgba(0, 0, 0, 0.40);
+    color: white;
+    padding: 5px;
+    border-radius: 6px;
+    border: 2px solid #ddd;
+    text-align: right;
+}
+
+.bounding-box {
+    position: absolute;
+    border: 2px solid lime;
+    color: lime;
+    background: rgba(0, 255, 0, 0.10);
+    font-size: 14px;
+    font-weight: bold;
+}
+
+#confidence {
+    -webkit-appearance: none;
+    appearance: none;
+    height: 8px;
+    background: var(--primary-color);
+    border-radius: 5px;
+    outline: none;
+}
+
+#confidence::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    background: var(--secondary-color);
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+#conf_value {
+    margin-bottom: 20px;
+    color: var(--text-color);
+    font-size: 1rem;
+    font-weight: bold;
+}
