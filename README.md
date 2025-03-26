@@ -9,7 +9,7 @@ A simple web application that can be used to test object detecttion model like Y
 
 ## Features
 ![main interface][main-interface]
-- **Upload** - Upload or Drag & Drop and image for object detection testing.
+- **Upload** - Upload or Drag & Drop an image for object detection testing.
 - **Confidence Slider** - Adjust the visible bounding boxes based on confidence.
 
 ## Installation
