@@ -4,7 +4,7 @@ from flask import Flask, jsonify, request, send_from_directory
 from ultralytics import YOLO
 
 app = Flask(__name__)
-model = YOLO("Phol/model/yolov11m-v1.pt")
+model = YOLO("model/yolov11m-v2.pt")
 confidence = 0.1
 
 def calculate_scale(original_width, original_height, container_width, container_height):
