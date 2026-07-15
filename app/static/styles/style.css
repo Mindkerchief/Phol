@@ -109,7 +109,7 @@ button[disabled] {
 
 #output-image {
     width: 800px;
-    height: 500px;
+    height: 65dvh;
     object-fit: contain;
 }
 
