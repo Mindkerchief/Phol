@@ -1,10 +1,15 @@
+import os
+from pathlib import Path
+
 import cv2
 import numpy as np
-from flask import Flask, jsonify, request, send_from_directory
+from flask import Flask, jsonify, request, render_template
 from ultralytics import YOLO
 
-app = Flask(__name__)
-model = YOLO("model/yolov11m-v2.pt")
+
+BASE_DIR: Path = Path(__file__).resolve().parent.parent
+MODEL_PATH = os.path.join(BASE_DIR, 'app', 'model', 'yolov11m-v2.pt')
+model = YOLO(MODEL_PATH)
 confidence = 0.1
 
 def calculate_scale(original_width, original_height, container_width, container_height):
@@ -24,48 +29,58 @@ def calculate_scale(original_width, original_height, container_width, container_
 
     return scale, x_offset, y_offset
 
-@app.route("/")
-def serve_index():
-    return send_from_directory('.', 'index.html')
+def create_api_routes(app):
+    """Create and register all API routes with the Flask app"""
 
-@app.route("/predict", methods=["POST"])
-def predict():
-    file = request.files.get("image")
-    detections = []
+    @app.route('/')
+    def index():
+        return render_template('index.html')
 
-    if file:
-        file_stream = file.stream
-        file_bytes = np.frombuffer(file_stream.read(), np.uint8)
-        img = cv2.imdecode(file_bytes, cv2.IMREAD_COLOR)
-    else:
-        raise ValueError("No image file provided.")
+    @app.route('/predict', methods=['POST'])
+    def predict():
+        file = request.files.get('image')
+        detections = []
 
-    # Get original dimensions
-    original_height, original_width = img.shape[:2]
-    container_width, container_height = 800, 500 # Dimension based on front-end image output
+        if file:
+            file_stream = file.stream
+            file_bytes = np.frombuffer(file_stream.read(), np.uint8)
+            img = cv2.imdecode(file_bytes, cv2.IMREAD_COLOR)
+        else:
+            raise ValueError('No image file provided.')
 
-    scale, x_offset, y_offset = calculate_scale(original_width, original_height, 
-                                                container_width, container_height)
+        # Get original dimensions
+        original_height, original_width = img.shape[:2]
+        container_width, container_height = 800, 500 # Dimension based on front-end image output
 
-    results = model.predict(img, conf=confidence)[0]
-    
-    for box in results.boxes.data.tolist():
-        x1, y1, x2, y2, conf, cls = box
+        scale, x_offset, y_offset = calculate_scale(original_width, original_height, 
+                                                    container_width, container_height)
 
-        # Adjust bounding box coordinates
-        adjusted_x1 = (x1 - x_offset) / scale
-        adjusted_y1 = (y1 - y_offset) / scale
-        adjusted_x2 = (x2 - x_offset) / scale
-        adjusted_y2 = (y2 - y_offset) / scale
+        results = model.predict(img, conf=confidence)[0]
+        
+        for box in results.boxes.data.tolist():
+            x1, y1, x2, y2, conf, cls = box
 
-        detections.append({
-            "bbox": [adjusted_x1, adjusted_y1, adjusted_x2, adjusted_y2],
-            "confidence": conf,
-            "class": int(cls),
-            "label": results.names[int(cls)]
-        })
+            # Adjust bounding box coordinates
+            adjusted_x1 = (x1 - x_offset) / scale
+            adjusted_y1 = (y1 - y_offset) / scale
+            adjusted_x2 = (x2 - x_offset) / scale
+            adjusted_y2 = (y2 - y_offset) / scale
 
-    return jsonify({"detections": detections})
+            detections.append({
+                'bbox': [adjusted_x1, adjusted_y1, adjusted_x2, adjusted_y2],
+                'confidence': conf,
+                'class': int(cls),
+                'label': results.names[int(cls)]
+            })
 
-if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=3000, debug=True)
+        return jsonify({'detections': detections})
+
+def create_app():
+    """Create and configure the Flask application"""
+    app = Flask(
+        __name__,
+        static_folder=str(os.path.join(BASE_DIR, 'app', 'static')),
+        template_folder=str(os.path.join(BASE_DIR, 'app', 'templates'))
+    )
+    create_api_routes(app)
+    return app
