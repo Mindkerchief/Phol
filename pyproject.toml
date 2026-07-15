@@ -1,0 +1,13 @@
+[project]
+name = "phol"
+version = "1.0.0"
+description = "A simple windows application that can be used to test YOLO object detection models"
+readme = "README.md"
+requires-python = ">=3.14"
+dependencies = [
+    "flask>=3.1.3",
+    "numpy>=2.5.1",
+    "pyinstaller>=6.21.0",
+    "pywebview>=6.2.1",
+    "ultralytics>=8.4.96",
+]
