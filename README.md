@@ -21,6 +21,7 @@ This project is licensed under the <licence-name> License - see the [LICENSE](LI
 
 ## Acknowledgments
 - **[LSPU-SPCC BSCS-3IS2 A.Y 2024-2025][lspu-spcc-bscs-3is2-ay-2024-2025]**: For their pothole images contribution.
+- **[uv][uv]**: For Python dependencies manager and virtual environment.
 - **[Flask CORS][flask-cors]**: For handling resource sharing between Python and JavaScript.
 - **[Waitress][waitress]**: For production-ready WSGI server.
 - **[PyWebview][pywebview]**: For standalone web app wrapper.
@@ -40,6 +41,7 @@ This project is licensed under the <licence-name> License - see the [LICENSE](LI
 
 [release-page]: https://github.com/Mindkerchief/Phol/releases
 [lspu-spcc-bscs-3is2-ay-2024-2025]: https://drive.google.com/drive/folders/1-M3mTLCz7qoXWtNzQ77ioJd7ToagRcac
+[uv]: https://pypi.org/project/uv/
 [flask-cors]: https://pypi.org/project/flask-cors/
 [waitress]: https://pypi.org/project/waitress/
 [pywebview]: https://pypi.org/project/pywebview/
